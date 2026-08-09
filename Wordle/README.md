@@ -1,4 +1,4 @@
-Wordle Arduboy Program
+<h1>Wordle for Arduboy</h1>
 
 Wordle is a 5 character word guessing game made famous by the NY Times.
 
