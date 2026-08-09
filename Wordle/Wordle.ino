@@ -141,6 +141,7 @@ uint8_t iGuessCnt = 0;
 
 boolean bStartGame = true;
 boolean bEndGame = false;
+boolean bUnknownWord = false;
 
 void setup() {
   arduboy.begin();
@@ -224,6 +225,7 @@ void loop() {
         cGuess6[i] = '\0';
       }
     }
+    bUnknownWord = false;
   }
   if (arduboy.justPressed(B_BUTTON)) {
     //delete key
@@ -271,6 +273,9 @@ void loop() {
             }
           }
         }
+        else {
+          bUnknownWord = true;
+        }
       }
     }
     //keyboard alpha character
@@ -299,6 +304,7 @@ void loop() {
   //update display
   if(bStartGame) update_start_display();
   else if(bEndGame) update_end_display();
+  else if(bUnknownWord) update_unknown_display();
   else update_game_display();
 }
 
@@ -333,6 +339,22 @@ void update_end_display() {
   arduboy.setTextSize(1);
   arduboy.setCursor(15, 40);
   arduboy.print("press A to start");
+  //display
+  arduboy.display();
+}
+
+void update_unknown_display() {
+  arduboy.clear();
+  //unknown word
+  arduboy.setTextSize(2);
+  arduboy.setCursor(23, 5);
+  arduboy.print("UNKNOWN");
+  arduboy.setCursor(3, 25);
+  arduboy.print("WORD");
+  //continue
+  arduboy.setTextSize(1);
+  arduboy.setCursor(8, 50);
+  arduboy.print("press A to continue");
   //display
   arduboy.display();
 }
