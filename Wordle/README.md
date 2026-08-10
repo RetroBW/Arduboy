@@ -2,7 +2,7 @@
 
 &micro;Wordle is a 5 character word guessing game made famous by the NY Times.
 
-You can try Wordle online thank to the Arduboy player developed by the Ardens team,  [Wordle](https://tiberiusbrown.github.io/Ardens/player.html?file=https://raw.githubusercontent.com/RetroBW/Arduboy/refs/heads/main/Wordle/Wordle.hex).
+You can try Wordle online thank to the Arduboy player developed by the Ardens team,  [&micro;Wordle](https://tiberiusbrown.github.io/Ardens/player.html?file=https://raw.githubusercontent.com/RetroBW/Arduboy/refs/heads/main/Wordle/Wordle.hex).
 
 The object is to guess a 5 letter word. You get 6 guesses. Each guess will provide the following clues.
 <ul>
