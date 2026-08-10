@@ -1,8 +1,8 @@
-<h1>&micro;Wordle for Arduboy</h1>
+<h1>WordRiddle for Arduboy</h1>
 
-&micro;Wordle is a 5 character word guessing game made famous by the NY Times.
+WordRiddle is a 5 character word guessing game inspired by the NY Times Wordle game.
 
-You can try &micro;Wordle online thank to the Arduboy player developed by the Ardens team,  [&micro;Wordle](https://tiberiusbrown.github.io/Ardens/player.html?file=https://raw.githubusercontent.com/RetroBW/Arduboy/refs/heads/main/microWordle/microWordle.hex).
+You can try WordRiddle online thank to the Arduboy player developed by the Ardens team using the link,  [WordRiddle](https://tiberiusbrown.github.io/Ardens/player.html?file=https://raw.githubusercontent.com/RetroBW/Arduboy/refs/heads/main/WordRiddle/WordRiddle.hex).
 
 The object is to guess a 5 letter word. You get 6 guesses. Each guess will provide the following clues.
 <ul>
