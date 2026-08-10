@@ -142,6 +142,7 @@ uint8_t iGuessCnt = 0;
 boolean bStartGame = true;
 boolean bEndGame = false;
 boolean bUnknownWord = false;
+boolean bHelp = true;
 
 void setup() {
   arduboy.begin();
@@ -200,7 +201,7 @@ void loop() {
     }
   }
   if (arduboy.justPressed(A_BUTTON)) {
-    if(bStartGame || bEndGame) {
+    if(bStartGame || bEndGame || bHelp) {
       //init keyboard
       strncpy(cKeyboardR1, "QWERTYUIOP <", 12);
       strncpy(cKeyboardR2, "ASDFGHJKL >", 11);
@@ -212,6 +213,7 @@ void loop() {
         cCurWord[i] = toupper(cCurWord[i]);
       }
       bStartGame = false;
+      bHelp = false;
       bEndGame = false;
       iCurGuessPos = 0;
       iGuessCnt = 0;
@@ -228,8 +230,13 @@ void loop() {
     bUnknownWord = false;
   }
   if (arduboy.justPressed(B_BUTTON)) {
+    //help
+    if(bStartGame) {
+      bStartGame = false;
+      bHelp = true;
+    }
     //delete key
-    if(iKeyboardRow == 0 && iKeyboardCol == 10) {
+    else if(iKeyboardRow == 0 && iKeyboardCol == 10) {
       if(iCurGuessPos > 0) iCurGuessPos--;
       cCurGuess[iCurGuessPos] = '\0';
     }
@@ -303,6 +310,7 @@ void loop() {
   }
   //update display
   if(bStartGame) update_start_display();
+  else if(bHelp) update_help_display();
   else if(bEndGame) update_end_display();
   else if(bUnknownWord) update_unknown_display();
   else update_game_display();
@@ -312,14 +320,17 @@ void update_start_display() {
   arduboy.clear();
   //title
   arduboy.setTextSize(2);
-  arduboy.setCursor(28, 8);
-  arduboy.print("WORDLE");
+  arduboy.setCursor(4, 8);
+  arduboy.print("WordRiddle");
   //by
   arduboy.setTextSize(1);
   arduboy.setCursor(25, 30);
   arduboy.print("by Bill West");
-  //start
+  //help
   arduboy.setCursor(15, 40);
+  arduboy.print("press B for help");
+  //start
+  arduboy.setCursor(15, 50);
   arduboy.print("press A to start");
   //display
   arduboy.display();
@@ -351,6 +362,46 @@ void update_unknown_display() {
   arduboy.print("UNKNOWN");
   arduboy.setCursor(3, 25);
   arduboy.print("WORD");
+  //continue
+  arduboy.setTextSize(1);
+  arduboy.setCursor(8, 50);
+  arduboy.print("press A to continue");
+  //display
+  arduboy.display();
+}
+
+void update_help_display() {
+  arduboy.clear();
+  //help 1
+  uint8_t iX = 2, iY = 2;
+  arduboy.setTextSize(1);
+  arduboy.setCursor(iX, iY);
+  arduboy.print("A");
+  arduboy.drawLine(iX-2, iY-2, iX+6, iY-2, WHITE); //top
+  arduboy.drawLine(iX-2, iY+8, iX+6, iY+8, WHITE); //bottom
+  arduboy.drawLine(iX-2, iY-2, iX-2, iY+8, WHITE); //left
+  arduboy.drawLine(iX+6, iY-2, iX+6, iY+8, WHITE); //right
+  arduboy.setCursor(iX + 12, iY);
+  arduboy.print("in correct position");
+  //help 2
+  iY = 12;
+  arduboy.setCursor(iX, iY);
+  arduboy.print("A");
+  arduboy.drawLine(iX-2, iY+8, iX+6, iY+8, WHITE); //bottom
+  arduboy.setCursor(iX + 12, iY);
+  arduboy.print("in word elsewhere");
+  //help 1
+  iY = 22;
+  arduboy.setCursor(iX, iY);
+  arduboy.print("A");
+  arduboy.setCursor(iX + 12, iY);
+  arduboy.print("not in word");
+  //help 1
+  iY = 32;
+  arduboy.setCursor(iX, iY);
+  arduboy.print("a");
+  arduboy.setCursor(iX + 12, iY);
+  arduboy.print("not in word");
   //continue
   arduboy.setTextSize(1);
   arduboy.setCursor(8, 50);
