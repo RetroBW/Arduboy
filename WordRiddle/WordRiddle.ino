@@ -333,7 +333,7 @@ void update_start_display() {
   //by
   arduboy.setTextSize(1);
   arduboy.setCursor(25, 30);
-  arduboy.print("by Bill West");
+  arduboy.print("by RetroBW");
   //help
   arduboy.setCursor(15, 40);
   arduboy.print("press B for help");
