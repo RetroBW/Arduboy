@@ -332,7 +332,7 @@ void update_start_display() {
   arduboy.print("WordRiddle");
   //by
   arduboy.setTextSize(1);
-  arduboy.setCursor(25, 30);
+  arduboy.setCursor(29, 30);
   arduboy.print("by RetroBW");
   //help
   arduboy.setCursor(15, 40);
