@@ -142,7 +142,7 @@ uint8_t iGuessCnt = 0;
 boolean bStartGame = true;
 boolean bEndGame = false;
 boolean bUnknownWord = false;
-boolean bHelp = true;
+uint8_t iHelp = 0;
 
 void setup() {
   arduboy.begin();
@@ -201,7 +201,8 @@ void loop() {
     }
   }
   if (arduboy.justPressed(A_BUTTON)) {
-    if(bStartGame || bEndGame || bHelp) {
+    if(iHelp == 1) iHelp++;
+    else if(bStartGame || bEndGame || (iHelp == 2 )) {
       //init keyboard
       strncpy(cKeyboardR1, "QWERTYUIOP <", 12);
       strncpy(cKeyboardR2, "ASDFGHJKL >", 11);
@@ -213,7 +214,7 @@ void loop() {
         cCurWord[i] = toupper(cCurWord[i]);
       }
       bStartGame = false;
-      bHelp = false;
+      iHelp = 0;
       bEndGame = false;
       iCurGuessPos = 0;
       iGuessCnt = 0;
@@ -233,7 +234,7 @@ void loop() {
     //help
     if(bStartGame) {
       bStartGame = false;
-      bHelp = true;
+      iHelp = 1;
     }
     //delete key
     else if(iKeyboardRow == 0 && iKeyboardCol == 10) {
@@ -282,6 +283,8 @@ void loop() {
         }
         else {
           bUnknownWord = true;
+          iKeyboardRow = 0; 
+          iKeyboardCol = 10;
         }
       }
     }
@@ -305,12 +308,17 @@ void loop() {
       if(iCurGuessPos < 5) {
         cCurGuess[iCurGuessPos] = cKeyboardRow[iKeyboardCol];
         iCurGuessPos++;
+        if(iCurGuessPos == 5) {
+          iKeyboardRow = 1;
+          iKeyboardCol = 9;        
+        }
       }
     }
   }
   //update display
   if(bStartGame) update_start_display();
-  else if(bHelp) update_help_display();
+  else if(iHelp == 1) update_help1_display();
+  else if(iHelp == 2) update_help2_display();
   else if(bEndGame) update_end_display();
   else if(bUnknownWord) update_unknown_display();
   else update_game_display();
@@ -360,7 +368,7 @@ void update_unknown_display() {
   arduboy.setTextSize(2);
   arduboy.setCursor(23, 5);
   arduboy.print("UNKNOWN");
-  arduboy.setCursor(3, 25);
+  arduboy.setCursor(41, 25);
   arduboy.print("WORD");
   //continue
   arduboy.setTextSize(1);
@@ -370,7 +378,7 @@ void update_unknown_display() {
   arduboy.display();
 }
 
-void update_help_display() {
+void update_help1_display() {
   arduboy.clear();
   //help 1
   uint8_t iX = 2, iY = 2;
@@ -401,7 +409,23 @@ void update_help_display() {
   arduboy.setCursor(iX, iY);
   arduboy.print("a");
   arduboy.setCursor(iX + 12, iY);
-  arduboy.print("not in word");
+  arduboy.print("(keybd) not in word");
+  //continue
+  arduboy.setTextSize(1);
+  arduboy.setCursor(8, 50);
+  arduboy.print("press A to continue");
+  //display
+  arduboy.display();
+}
+
+void update_help2_display() {
+  arduboy.clear();
+  //help 1
+  arduboy.setCursor(2, 2);
+  arduboy.print("press '<' to\ndelete character");
+  //help 1
+  arduboy.setCursor(2, 26);
+  arduboy.print("press '>' to\naccept word");
   //continue
   arduboy.setTextSize(1);
   arduboy.setCursor(8, 50);
